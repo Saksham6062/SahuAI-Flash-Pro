@@ -1,0 +1,387 @@
+<style id="sahu-max-ui-pro">
+/* ============================================================
+   SAHUAI MAX — PROFESSIONAL UI LAYER v2
+   Purely presentational. No IDs, class hooks, layout mechanics
+   or JS behavior are altered — every feature works as before.
+   ============================================================ */
+
+/* ---------- 1. DESIGN TOKENS (override root vars) ---------- */
+:root {
+  /* Brand accent — refined indigo → violet */
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-light: rgba(99, 102, 241, 0.10);
+
+  /* Light surfaces — cool neutral slate */
+  --bg-primary: #f7f8fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eef1f5;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border: #e4e8ef;
+  --border-light: #eef1f6;
+
+  /* Elevation — soft, layered, accent-tinted */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 2px 8px -2px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-lg: 0 12px 32px -8px rgba(15, 23, 42, 0.14), 0 4px 10px -4px rgba(15, 23, 42, 0.06);
+  --shadow-xl: 0 24px 56px -12px rgba(15, 23, 42, 0.20), 0 8px 20px -8px rgba(15, 23, 42, 0.08);
+  --shadow-2xl: 0 32px 72px -16px rgba(15, 23, 42, 0.26);
+
+  /* Radii scale */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+}
+
+.dark-mode {
+  --accent: #818cf8;
+  --accent-hover: #a5b4fc;
+  --accent-light: rgba(129, 140, 248, 0.14);
+
+  --bg-primary: #0a0c11;
+  --bg-secondary: #12151c;
+  --bg-tertiary: #1a1e27;
+  --text-primary: #eef1f6;
+  --text-secondary: #a3aec2;
+  --text-muted: #5b6577;
+  --border: #242b38;
+  --border-light: #1a202b;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 2px 10px -2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 14px 36px -8px rgba(0, 0, 0, 0.6), 0 4px 10px -4px rgba(0, 0, 0, 0.45);
+  --shadow-xl: 0 28px 60px -12px rgba(0, 0, 0, 0.68);
+  --shadow-2xl: 0 40px 88px -16px rgba(0, 0, 0, 0.75);
+}
+
+/* ---------- 2. BASE & TYPOGRAPHY ---------- */
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02' 1, 'cv03' 1, 'cv04' 1, 'ss01' 1;
+  letter-spacing: -0.006em;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, h5 { letter-spacing: -0.022em; }
+::selection { background: rgba(99, 102, 241, 0.20); }
+
+button {
+  transition: background-color 130ms ease, border-color 130ms ease,
+              color 130ms ease, box-shadow 130ms ease, transform 130ms ease;
+}
+button:active { transform: scale(0.97); }
+
+/* ---------- 3. CALM, SLIM SCROLLBARS ---------- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+/* ---------- 4. HEADER — quiet glass bar ---------- */
+.header {
+  background: color-mix(in srgb, var(--bg-secondary) 82%, transparent);
+  backdrop-filter: saturate(1.6) blur(16px);
+  -webkit-backdrop-filter: saturate(1.6) blur(16px);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(99,102,241,0.35), transparent);
+  pointer-events: none;
+}
+.header-title { letter-spacing: -0.015em; font-weight: 700; }
+
+/* Mode toggle — segmented control */
+.mode-toggle {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
+  box-shadow: inset 0 1px 2px rgba(15,23,42,0.04);
+}
+.mode-toggle-btn.active {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+}
+
+/* ---------- 5. SIDEBAR ---------- */
+.sidebar { border-right: 1px solid var(--border-light); }
+.sidebar-header { border-bottom: 1px solid var(--border-light); }
+.sidebar-title { letter-spacing: -0.02em; font-weight: 800; }
+.sidebar-version {
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.sidebar-logo {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #a855f7 100%);
+  box-shadow: 0 6px 18px -4px rgba(99,102,241,0.5);
+}
+
+/* History & pinned rows */
+.history-item, .pinned-item {
+  border-radius: var(--radius-md);
+  transition: background-color 130ms ease, transform 130ms ease;
+}
+.history-item:hover { background: var(--bg-tertiary); transform: translateX(2px); }
+
+/* ---------- 6. WELCOME HERO ---------- */
+.welcome-logo {
+  width: 3.75rem; height: 3.75rem;
+  border-radius: 1.15rem;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 60%, #a855f7 100%);
+  box-shadow: 0 12px 32px -8px rgba(99,102,241,0.55), 0 2px 8px rgba(99,102,241,0.3);
+}
+.welcome-title {
+  font-size: 2rem; font-weight: 800; letter-spacing: -0.035em;
+  color: transparent !important;
+  background: linear-gradient(100deg, var(--text-primary) 25%, var(--accent) 70%, #a855f7 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.dark-mode .welcome-title {
+  color: transparent !important;
+  background: linear-gradient(100deg, #f4f6fb 15%, #a5b0fc 60%, #d8b4fe 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.welcome-subtitle { font-size: 0.95rem; line-height: 1.6; }
+
+.welcome-feature-card, .quick-prompt-card {
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+.welcome-feature-card:hover, .quick-prompt-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border);
+}
+.provider-badge {
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- 7. MESSAGES ---------- */
+.message-bubble { border-radius: 18px; }
+.message-user .message-bubble {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 4px 16px rgba(99,102,241,0.28);
+}
+.message-content { line-height: 1.65; }
+.message-content pre { border-radius: 12px; border: 1px solid var(--border-light); }
+.message-content code { font-family: var(--font-mono); }
+.message-meta { font-variant-numeric: tabular-nums; }
+
+/* Thinking block */
+.thinking-block { border-radius: var(--radius-md); }
+.thinking-header { color: #d97706; }
+
+/* Expert cards */
+.expert-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-sm);
+}
+.expert-card.thinking { border-color: rgba(245,158,11,0.6); }
+.expert-card.complete { border-color: rgba(34,197,94,0.6); }
+.expert-card.error { border-color: rgba(239,68,68,0.6); }
+
+/* Aggregator / consensus */
+.aggregator-response {
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--accent);
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, rgba(99,102,241,0.08) 100%);
+  box-shadow: var(--shadow-md);
+}
+.aggregator-stage { box-shadow: var(--shadow-sm); }
+
+/* ---------- 8. SOURCES & CITATIONS ---------- */
+.sources-panel {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+.source-card {
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 150ms ease;
+}
+.source-card:hover {
+  border-color: var(--accent);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-sm);
+}
+.citation { border-radius: 5px; }
+
+/* ---------- 9. ARTIFACT / CODE ---------- */
+.artifact-container {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+}
+.artifact-header { border-bottom: 1px solid var(--border-light); }
+
+/* ---------- 10. COMPOSER (input area) ---------- */
+.input-area-container {
+  background: linear-gradient(to top, var(--bg-primary) 70%, transparent);
+  border-top: none;
+}
+.input-box {
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  box-shadow: var(--shadow-md);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.input-box:focus-within {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 4px var(--accent-light), var(--shadow-md) !important;
+}
+.input-textarea { font-size: 0.95rem; line-height: 1.55; }
+.input-textarea::placeholder { color: var(--text-muted); }
+.input-mode-tag {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 1px 4px rgba(99,102,241,0.35);
+}
+
+/* Chatbar buttons */
+.chatbar-btn {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  transition: all 130ms ease;
+}
+.chatbar-btn:hover { background: var(--bg-tertiary); color: var(--accent); }
+.chatbar-btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 4px 14px rgba(99,102,241,0.35);
+}
+.chatbar-btn-primary:hover { box-shadow: 0 6px 18px rgba(99,102,241,0.45); }
+.chatbar-btn-primary.stop-btn { background: #ef4444; box-shadow: 0 4px 14px rgba(239,68,68,0.35); }
+
+.file-preview-card {
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ---------- 11. BUTTONS ---------- */
+.btn { border-radius: var(--radius-md); font-weight: 600; }
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+}
+.btn-primary:hover:not(:disabled) { box-shadow: 0 6px 18px rgba(99,102,241,0.4); }
+.btn-secondary { border-radius: var(--radius-md); }
+
+/* ---------- 12. POPOVERS & MODALS ---------- */
+.tools-popover, .style-popover, .language-popover, .connectors-popover {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xl);
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+.tools-popover-item, .tools-action-item, .tools-nav-item,
+.style-option-item, .connector-item, .language-item {
+  border-radius: 10px;
+  transition: background 120ms ease;
+}
+
+.modal-container {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-2xl);
+}
+.modal-header { border-bottom: 1px solid var(--border-light); }
+.modal-footer { border-top: 1px solid var(--border-light); }
+.modal-title { letter-spacing: -0.015em; font-weight: 700; }
+
+/* Settings cards */
+.settings-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  transition: all 150ms ease;
+}
+.settings-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--border);
+}
+
+/* ---------- 13. INPUTS / SELECTS / TOGGLES ---------- */
+.input, .customize-input, .customize-textarea, .language-search,
+.history-search-input, .api-key-input, .single-model-select,
+.pipeline-select, .voice-setting-select {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  transition: all 140ms ease;
+}
+.input:focus, .customize-input:focus, .customize-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+.toggle-label { border-radius: var(--radius-pill); }
+
+/* ---------- 14. METRICS & COUNTERS ---------- */
+.metrics-container, .token-counter, .connection-status {
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-light);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- 15. TOAST ---------- */
+.toast {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(8px);
+}
+
+/* ---------- 16. EXPORT BUTTONS ---------- */
+.export-btn {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  transition: all 150ms ease;
+}
+.export-btn:hover {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+}
+
+/* ---------- 17. FOCUS & ACCESSIBILITY ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
